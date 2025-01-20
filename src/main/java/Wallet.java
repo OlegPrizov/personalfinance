@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// класс кошелька
 public class Wallet implements Serializable {
     private double balance;
     private List<Transaction> transactions = new ArrayList<>();
     private Map<String, Category> categories = new HashMap<>();
 
+    // добавление статьи доходов
     public void addIncome(double amount, String category) {
         balance += amount;
         transactions.add(new Transaction(amount, category, true));
@@ -16,6 +18,7 @@ public class Wallet implements Serializable {
         cat.addIncome(amount);
     }
 
+    // добавление статьи расходов
     public void addExpense(double amount, String category) {
         balance -= amount;
         transactions.add(new Transaction(amount, category, false));
@@ -26,6 +29,7 @@ public class Wallet implements Serializable {
         }
     }
 
+    // установить бюджет в определенной категории
     public void setCategoryBudget(String category, double budget) {
         Category cat = categories.computeIfAbsent(category, k -> new Category(category, budget));
         cat.setBudget(budget);
@@ -43,6 +47,7 @@ public class Wallet implements Serializable {
         return categories;
     }
 
+    // печать отчета в терминал
     public void printReport() {
         double totalIncome = transactions.stream().filter(Transaction::isIncome).mapToDouble(Transaction::getAmount).sum();
         double totalExpenses = transactions.stream().filter(t -> !t.isIncome()).mapToDouble(Transaction::getAmount).sum();

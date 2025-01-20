@@ -2,9 +2,11 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+// класс для реализации основного функционала работы с пользователями
 public class UserManager implements Serializable {
     private Map<String, User> users = new HashMap<>();
 
+    // добавление пользователя
     public boolean registerUser(String username, String password) {
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             System.out.println("Имя пользователя и пароль не должны быть пустыми .");
@@ -20,6 +22,7 @@ public class UserManager implements Serializable {
         return true;
     }
 
+    // авторизация
     public User authenticate(String username, String password) {
         User user = users.get(username);
         if (user != null && user.validatePassword(password)) {
@@ -29,6 +32,7 @@ public class UserManager implements Serializable {
         return null;
     }
 
+    // сохранение данных
     public void saveData(String filename) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
             oos.writeObject(users);
@@ -37,6 +41,7 @@ public class UserManager implements Serializable {
         }
     }
 
+    // загрузка данных
     public void loadData(String filename) {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
             users = (Map<String, User>) ois.readObject();

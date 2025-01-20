@@ -1,3 +1,4 @@
+// класс для работы с уведомлениями
 public class NotificationService {
 
     public void notify(String message) {

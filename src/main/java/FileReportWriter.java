@@ -2,6 +2,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+// класс для записи отчета в файл
 public class FileReportWriter {
     public static void writeReportToFile(String filename, Wallet wallet) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {

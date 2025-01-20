@@ -1,5 +1,6 @@
 import java.io.Serializable;
 
+// класс для категорий бюджета
 public class Category implements Serializable {
     private String name;
     private double budget;

@@ -2,6 +2,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+// класс для работы с транзакциями
 public class Transaction implements Serializable {
     private final double amount;
     private final String category;
@@ -12,7 +13,7 @@ public class Transaction implements Serializable {
         this.amount = amount;
         this.category = category;
         this.isIncome = isIncome;
-        this.date = new Date(); // текущая дата
+        this.date = new Date();
     }
 
     public double getAmount() {
@@ -32,7 +33,7 @@ public class Transaction implements Serializable {
     }
 
     @Override
-    public String toString() {
+    public String toString() { // переделываю вывод
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String type = isIncome ? "Доход" : "Расход";
         return String.format("%s: %.2f, Категория: %s, Дата: %s", type, amount, category, dateFormat.format(date));

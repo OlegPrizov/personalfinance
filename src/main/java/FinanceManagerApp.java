@@ -6,18 +6,21 @@ public class FinanceManagerApp {
     private static final NotificationService notificationService = new NotificationService();
     private static final String DATA_FILE = "users.dat";
 
+    // команда main запускает команду run, в которой уже описана вся основная логика программы
     public static void main(String[] args) {
         run();
     }
 
+    // основная команда
     public static void run() {
         loadData();
 
+        // главное меню
         while (true) {
-            System.out.println("Выберите действие:");
-            System.out.println("1. Регистрация");
-            System.out.println("2. Вход");
-            System.out.println("3. Выход");
+            System.out.println("Выберите действие, введя нужный номер команды:");
+            System.out.println("1. Зарегистрировать нового пользователя");
+            System.out.println("2. Войти в систему");
+            System.out.println("3. Выйти из системы");
 
             int command = getCommand();
 
@@ -42,35 +45,38 @@ public class FinanceManagerApp {
         }
     }
 
+    // получение команды, введенной пользователем в терминал
     private static int getCommand() {
         while (true) {
             try {
                 System.out.print("Введите номер команды: ");
                 return Integer.parseInt(scanner.nextLine().trim());
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException e) { // проверяем, что было введено число
                 notificationService.notify("Ошибка ввода. Введите число.");
             }
         }
     }
 
+    // команда регистрации пользователя
     private static void handleRegistration() {
         System.out.print("Введите имя пользователя: ");
         String username = scanner.nextLine().trim();
         System.out.print("Введите пароль: ");
         String password = scanner.nextLine().trim();
 
-        if (userManager.registerUser(username, password)) {
+        if (userManager.registerUser(username, password)) { // тут регистрируем пользователя
             notificationService.notify("Пользователь успешно зарегистрирован.");
         }
     }
 
+    // команда входа в систему
     private static void handleLogin() {
         System.out.print("Введите имя пользователя: ");
         String username = scanner.nextLine().trim();
         System.out.print("Введите пароль: ");
         String password = scanner.nextLine().trim();
 
-        User user = userManager.authenticate(username, password);
+        User user = userManager.authenticate(username, password); // тут производится вход в систему
         if (user != null) {
             notificationService.notify("Добро пожаловать, " + user.getUsername());
             handleUserSession(user);
@@ -79,17 +85,18 @@ public class FinanceManagerApp {
 
     private static void handleUserSession(User user) {
         while (true) {
-            System.out.println("Выберите действие:");
-            System.out.println("1. Добавить доход");
-            System.out.println("2. Добавить расход");
-            System.out.println("3. Установить бюджет по категории");
-            System.out.println("4. Просмотр отчёта");
-            System.out.println("5. Перевод средств");
-            System.out.println("6. Сохранение отчёта в файл");
-            System.out.println("7. Выход");
+            System.out.println("Выберите действие, введя нужный номер команды:");
+            System.out.println("1. Добавить статью доходов");
+            System.out.println("2. Добавить статью расходов");
+            System.out.println("3. Установить бюджет в нужной категории");
+            System.out.println("4. Просмотреть отчет отчёта");
+            System.out.println("5. Перевести средства средств");
+            System.out.println("6. Сохранить отчёт в файл");
+            System.out.println("7. Выйти");
 
             int command = getCommand();
 
+            // цикл, который проверяет, какая команда была введена, и реализует дальнейшую логику
             try {
                 switch (command) {
                     case 1:
@@ -122,6 +129,7 @@ public class FinanceManagerApp {
         }
     }
 
+    // Команда для добавления статьи доходов
     private static void handleIncome(User user) {
         try {
             System.out.print("Введите сумму дохода: ");
@@ -135,6 +143,7 @@ public class FinanceManagerApp {
         }
     }
 
+    // Команда для добавления статьи расходов
     private static void handleExpense(User user) {
         try {
             System.out.print("Введите сумму расхода: ");
@@ -153,6 +162,7 @@ public class FinanceManagerApp {
         }
     }
 
+    // команда для установления бюджета в определенной категории
     private static void handleBudget(User user) {
         try {
             System.out.print("Введите категорию: ");
@@ -166,10 +176,12 @@ public class FinanceManagerApp {
         }
     }
 
+    // команда для вывода отчета
     private static void printReport(User user) {
         user.getWallet().printReport();
     }
 
+    // команда для перевода средств между кошельками
     private static void handleTransfer(User user) {
         try {
             System.out.print("Введите имя пользователя получателя: ");
@@ -198,6 +210,7 @@ public class FinanceManagerApp {
         }
     }
 
+    // команда для сохранения отчета в файл
     private static void saveReportToFile(User user) {
         System.out.print("Введите имя файла для сохранения отчета: ");
         String filename = scanner.nextLine().trim();
@@ -205,6 +218,7 @@ public class FinanceManagerApp {
         notificationService.notify("Отчет сохранен в файл: " + filename);
     }
 
+    // загрузка данных
     private static void loadData() {
         try {
             userManager.loadData(DATA_FILE);
@@ -214,6 +228,7 @@ public class FinanceManagerApp {
         }
     }
 
+    // сохранение данных
     private static void saveData() {
         try {
             userManager.saveData(DATA_FILE);

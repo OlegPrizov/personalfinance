@@ -1,5 +1,6 @@
 import java.io.Serializable;
 
+// класс пользователя
 public class User implements Serializable {
     private String username;
     private String passwordHash;
@@ -7,7 +8,7 @@ public class User implements Serializable {
 
     public User(String username, String password) {
         this.username = username;
-        this.passwordHash = password;  // Implement proper password hashing in real cases
+        this.passwordHash = password;
         this.wallet = new Wallet();
     }
 
